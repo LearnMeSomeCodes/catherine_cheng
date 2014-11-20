@@ -71,8 +71,19 @@ def create_entry
 	phone_response = gets.strip
 	until phone_response == "N" do 
 		p = phone()
+
+    # FYI: a.phone_numbers actually supports the #push
+    #      method even though it is not an Array.  In
+    #      fact, the call to a.phone_numbers.to_a does
+    #      not actually modify a.phone_numbers.  Instead,
+    #      it creates a new Array that contains the same
+    #      elements as a.phone_numbers.  Thus, the call
+    #      to a.phone_numbers.to_a is actually creating
+    #      a value, which is immediately discarded. (Why?)
 		a.phone_numbers.to_a
-		a.phone_numbers.push p 
+		a.phone_numbers.push p
+
+
 		puts "Add another phone number? (Y/N): "
 		phone_response = gets.strip
 	end
