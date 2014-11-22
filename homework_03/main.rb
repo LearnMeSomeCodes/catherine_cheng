@@ -116,6 +116,23 @@ def search_first_name
 		)
 	puts "Found #{@results.size()} matches!"
 	puts
+
+  ### Enhancement: Notice that the body of this block is repeated
+  ###              later in the code.  Consider moving this code
+  ###              into a #print_address_entry method.  Alternatively,
+  ###              you could define an instance method on the
+  ###              AddressEntry class that will print the entry:
+  ###
+  ###              class AddressEntry
+  ###                ...
+  ###
+  ###                def pretty_print
+  ###                  puts "First name:\t\t#{ first_name }"
+  ###                  ...
+  ###                end
+  ###
+  ###              end
+  ###
 	@results.each do |c|
 		puts "First name:\t\t#{c.first_name}"
 		puts "Last name:\t\t#{c.last_name}"
@@ -132,6 +149,12 @@ def search_first_name
 		puts
 	end
 	puts
+
+  ### Enhancement: You can make the prompt case-insensitive by converting
+  ###              the user's input to either uppercase or lowercase:
+  ###
+  ###                if ask_delete.upcase == "Y"
+  ###
 	if ask_delete == "Y"
 		delete_entry(@results)
 	end
@@ -214,15 +237,34 @@ end
 
 
 
-# EXIT METHOD - exists application
+# EXIT METHOD - exits application
 def exit
 	num_entries = AddressEntry.last['id']
 	puts "Don't worry! We've saved all #{num_entries} address book entries in your database."
 	puts "BYE!"
+
+  ### Oops: This looks like an infinite recursion.  This call to #exit
+  ###       will cause the method to invoke itself again and again.
+  ###       You were probably intending to call this method instead:
+  ###
+  ###         Kernel.exit
+  ###
 	exit 
 end
 
 
+### TIP: Notice that you repeat this line twice:
+###
+###        menu_choice = menu()
+###
+###      You could eliminate this repetition by using
+###      the "loop at least once" version of a loop:
+###
+###        begin
+###          menu_choice = menu()
+###          ... # Conditional logic goes here ...
+###        end until menu_choice == 3
+###
 menu_choice = menu()
 until menu_choice == 3 do
 	if menu_choice == 1
